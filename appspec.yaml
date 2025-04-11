@@ -1,0 +1,9 @@
+version: 1
+resources:
+  - targetService:
+      type: AWS::ECS::Service
+      properties:
+        taskDefinition: "<FAMILY-NAME>"  # Don't hardcode it — CodePipeline uses imagedefinitions.json
+        loadBalancerInfo:
+          containerName: nodejs-container
+          containerPort: 3000
