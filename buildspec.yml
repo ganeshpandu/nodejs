@@ -4,28 +4,24 @@ env:
   variables:
     REPOSITORY_URI: 714223118758.dkr.ecr.us-east-1.amazonaws.com/nodejs-app
     CONTAINER_NAME: nodejs-cluster
+    IMAGE_TAG: latest
 
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws --version
       - $(aws ecr get-login-password --region us-east-1) | docker login --username AWS --password-stdin $REPOSITORY_URI
-      - echo Setting IMAGE_TAG from Git commit
-      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
 
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building the Docker image...
+      - echo Building the Docker image with latest code...
       - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
 
   post_build:
     commands:
-      - echo Build completed on `date`
       - echo Pushing Docker image to ECR...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Writing imagedefinitions.json for ECS...
+      - echo Writing ECS imagedefinitions.json...
       - printf '[{"name":"%s","imageUri":"%s"}]' $CONTAINER_NAME $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 
 artifacts:
