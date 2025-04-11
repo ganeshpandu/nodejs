@@ -10,7 +10,7 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - $(aws ecr get-login-password --region <your-region>) | docker login --username AWS --password-stdin <your-account-id>.dkr.ecr.<your-region>.amazonaws.com
+      - $(aws ecr get-login-password --region ) | docker login --username AWS --password-stdin 714223118758.dkr.ecr.us-east-1.amazonaws.com
       - echo Setting IMAGE_TAG from Git commit
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
 
