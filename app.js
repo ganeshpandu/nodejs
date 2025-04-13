@@ -1,7 +1,7 @@
 const http = require('http');
 const server = http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('goutami-new-poc from ECS!');
+    res.end('goutami-new-poc-1 from ECS!');
 });
 server.listen(3000, () => {
     console.log('Server running on port 3000');
